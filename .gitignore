@@ -1,0 +1,10 @@
+venv
+*pyc
+*swp
+__pycache__
+.coverage
+*tar.gz
+*egg-info
+dist/
+build/
+discord_token
