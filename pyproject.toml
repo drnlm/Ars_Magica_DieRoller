@@ -1,0 +1,36 @@
+[project]
+name = "Ars-Magica-Dieroller"
+version = "2023.03.18"
+description = "A discord bot managing die rolls for Ars Magica 5th Edition"
+readme = "README"
+license = {file = "LICENSE"}
+authors = [
+  {email = "drnlmuller@gmail.com"},
+  {name = "Neil Muller"}
+]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Programming Language :: Python"
+]
+dependencies = [
+  "discord.py"
+]
+
+
+[project.optional-dependencies]
+test = [
+  "pytest"
+]
+
+[project.urls]
+repository = "https://github.com/drnlm/Ars_Magica_DieRoller"
+
+[build-system]
+requires = ["setuptools", "wheel"]
+
+[tool.setuptools]
+packages = [
+  'am5dieroller',
+  'am5dieroller.ars_magic_rolls',
+  'am5dieroller.bot'
+]
