@@ -1,0 +1,54 @@
+A simple discord bot for Ars Magic Die rolls
+============================================
+
+GPL-3 licensed - see the license file
+
+Commands
+---------
+
+/simple [+modifier]
+/i [+modifier]
+
+A simple die roll, with optional modifier which is added to the result
+
+
+/stressed [+modifier]
+/ess [+modifier]
+
+A stressed die roll with an optional modifier
+Rolls of zero will display 'possible botch' in addition to the total if the roll does not
+botch
+
+/botch [number]
+/b [number]
+
+Roll *number* botch die (defaulting to 1 if no value given) and report the number of botches
+
+/formulaic [+casting score] [target]
+/form [+casting score] [target]
+
+Roll a formulaic spell using a stress die, given the success levels if given
+the casting score and target number If just given the casting score, works the
+same as a stressed die
+
+/spont [+casting score] [target]
+/sp [+casting score] [target]
+
+Roll a non-fatiguing spontaneous spell.
+
+/fspont [+casting scroe] [target]
+/fsp [+casting score] [target]
+
+Roll a fatiguing spontaenous spell
+
+Requirements
+============
+
+Python 3
+discord-py
+
+
+Authors
+=======
+
+Neil Muller
