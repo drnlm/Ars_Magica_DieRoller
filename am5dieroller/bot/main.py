@@ -37,14 +37,10 @@ token = os.environ.get('DISCORD_TOKEN', None)
 if not token:
     raise RuntimeError("You must supply a discord token in the environment variable DISCORD_TOKEN")
 
-guilds = os.environ.get('DISCORD_GUILD_IDS', None)
-if not guilds:
-    print("No DISCORD_GUILD_IDS - the bot will run, but not add any commands")
-
 
 class DieRollerClient(discord.Client):
 
-    def __init__(self, guild):
+    def __init__(self):
         """Create the client and add hooks to sync slash commands"""
         intents = discord.Intents.default()
         super().__init__(intents=intents)
@@ -56,14 +52,11 @@ class DieRollerClient(discord.Client):
         print(f'Logged in as {self.user} (ID: {self.user.id})')
 
     async def setup_hook(self):
-        """Sync commands to the servers we're connected to"""
-        for guild_id in guilds.split():
-            this_guild =  discord.Object(id=int(guild_id))
-            self.tree.copy_global_to(guild=this_guild)
-            await self.tree.sync(guild=this_guild)
+        """Sync commands"""
+        await self.tree.sync()
 
 
-client = DieRollerClient(guilds)
+client = DieRollerClient()
 
 # I don't like this idiom for adding commands, but adding commands
 # without using the decorator is annoyingly messy
