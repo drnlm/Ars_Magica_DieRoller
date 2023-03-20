@@ -87,7 +87,8 @@ async def stressed(interaction: discord.Interaction, modifier: Optional[int] = 0
 @app_commands.describe(
     modifier="modifier to add to the roll (optional)",
 )
-async def simple(interaction: discord.Interaction, modifier: Optional[int] = 0):
+async def simple(interaction: discord.Interaction,
+                 modifier: Optional[ app_commands.Range[int, 0, None] ] = 0):
     rolls, total, outcome = simple_roll(modifier)
     result = f'Roll: {rolls[0]}. Total (with modifier {modifier}): **{total}**'
     await interaction.response.send_message(result)
@@ -97,7 +98,8 @@ async def simple(interaction: discord.Interaction, modifier: Optional[int] = 0):
 @app_commands.describe(
     number="number of dice to roll (optional, defaults to 1)",
 )
-async def botch(interaction: discord.Interaction, number: Optional[int] = 1):
+async def botch(interaction: discord.Interaction,
+                number: Optional[ app_commands.Range[int, 1, None] ] = 1):
     rolls, botches, outcome = botch_roll(number)
     if number > 1:
         result = f'Rolls: {rolls}. Botches **{botches}**  -- **{outcome}**'
@@ -111,7 +113,9 @@ async def botch(interaction: discord.Interaction, number: Optional[int] = 1):
     casting_score="The casting score (Stamina + Art + Form + Aura) to add to the roll",
     target="The target level of the spell",
 )
-async def formulaic(interaction: discord.Interaction, casting_score: int, target: int):
+async def formulaic(interaction: discord.Interaction,
+                    casting_score: app_commands.Range[int, 0, None],
+                    target: app_commands.Range[int, 0, None]):
     rolls, total, outcome = formulaic_roll(casting_score, target)
     if len(rolls) > 1:
         result = f'Rolls: {rolls}. Total (with casting score {casting_score}): **{total}** (against {target})'
@@ -125,7 +129,9 @@ async def formulaic(interaction: discord.Interaction, casting_score: int, target
     casting_score="The casting score (Stamina + Art + Form + Aura) to add to the roll",
     target="The target level of the spell",
 )
-async def spontaneous(interaction: discord.Interaction, casting_score: int, target: int):
+async def spontaneous(interaction: discord.Interaction,
+                      casting_score: app_commands.Range[int, 0, None],
+                      target: app_commands.Range[int, 0, None]):
     _, total, modified_total, outcome = spont_non_roll(casting_score, target)
     result = f'Total: {total}. Final total **{modified_total}** (against {target})'
     result += f'\n**{outcome}**\n'
@@ -137,7 +143,9 @@ async def spontaneous(interaction: discord.Interaction, casting_score: int, targ
     casting_score="The casting score (Stamina + Art + Form + Aura) to add to the roll",
     target="The target level of the spell",
 )
-async def fspont(interaction: discord.Interaction, casting_score: int, target: int):
+async def fspont(interaction: discord.Interaction,
+                 casting_score: app_commands.Range[int, 0, None],
+                 target: app_commands.Range[int, 0, None]):
     rolls, total, modified_total, outcome = fatiguing_spont_roll(casting_score, target)
     if len(rolls) > 1:
         result = f'Rolls: {rolls}. Total (with casting score {casting_score}): {total}. Final total **{modified_total}** (against {target})'
