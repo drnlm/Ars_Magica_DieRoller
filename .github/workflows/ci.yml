@@ -1,0 +1,24 @@
+name: Ars Magica Die Roller CI
+
+on: [push, pull_request]
+
+
+jobs:
+  die_roller:
+    runs-on: ubuntu-latest
+
+    name: Test the die roller submodule
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.11
+    - name: install pytest
+      run: |
+        pip install pytest
+    - name: run tests
+      run: |
+        pytest
+
