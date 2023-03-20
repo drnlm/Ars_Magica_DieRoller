@@ -1,6 +1,6 @@
 from .stressed import stressed_die
 
-def spont(modifier, target):
+def spont_roll(modifier, target):
     roll = 0
 
     result = (0 + modifier) // 5
@@ -11,7 +11,7 @@ def spont(modifier, target):
     return roll, roll + modifier, result, outcome
 
 
-def fatiguing_spont(modifier, target):
+def fatiguing_spont_roll(modifier, target):
     rolls, total = stressed_die()
     result = (total + modifier) // 2
     if result >= target:
