@@ -1,6 +1,6 @@
 # Tests for stressed die rolls
 
-from mock import Mock, patch
+from unittest.mock import Mock, patch
 
 from ..stressed import stressed_die, stressed_roll
 
