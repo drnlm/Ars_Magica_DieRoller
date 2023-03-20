@@ -31,6 +31,6 @@ requires = ["setuptools", "wheel"]
 [tool.setuptools]
 packages = [
   'am5dieroller',
-  'am5dieroller.ars_magic_rolls',
+  'am5dieroller.ars_magica_rolls',
   'am5dieroller.bot'
 ]
