@@ -1,6 +1,6 @@
 # Test for spontaneous spell rolls
 
-from mock import Mock, patch
+from unittest.mock import Mock, patch
 
 from ..spont_rolls import spont_non_roll, fatiguing_spont_roll
 

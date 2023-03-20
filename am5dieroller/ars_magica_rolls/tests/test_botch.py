@@ -1,6 +1,6 @@
 # Test for botch rolls
 
-from mock import Mock, patch
+from unittest.mock import Mock, patch
 
 from ..botch import botch_roll
 

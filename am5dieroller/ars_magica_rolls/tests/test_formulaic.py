@@ -1,6 +1,6 @@
 # Tests for formulaic spell rolls
 
-from mock import Mock, patch
+from unittest.mock import Mock, patch
 
 from ..formulaic import formulaic_roll
 

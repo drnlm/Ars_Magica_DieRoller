@@ -1,7 +1,7 @@
 # Tests for simple die rolls
 
 
-from mock import Mock, patch
+from unittest.mock import Mock, patch
 
 from ..simple import simple_roll
 
