@@ -1,6 +1,6 @@
 from .stressed import stressed_die
 
-def spont_roll(modifier, target):
+def spont_non_roll(modifier, target):
     roll = 0
 
     result = (0 + modifier) // 5

@@ -2,13 +2,13 @@
 
 from mock import Mock, patch
 
-from ..spont_rolls import spont_roll, fatiguing_spont_roll
+from ..spont_rolls import spont_non_roll, fatiguing_spont_roll
 
 
 def test_spont_success():
     """Test that a non-fatiguing spont can succeed"""
     # Should get 30 / 5 >= 5
-    roll, total, result, outcome = spont_roll(30, 5)
+    roll, total, result, outcome = spont_non_roll(30, 5)
     assert total == 30
     assert result == 6
     assert outcome == "success"
@@ -17,7 +17,7 @@ def test_spont_success():
 def test_spont_exact_success():
     """Test that a non-fatiguing spont can succeed at exactly the right number"""
     # Should get 25 / 5 == 5
-    roll, total, result, outcome = spont_roll(25, 5)
+    roll, total, result, outcome = spont_non_roll(25, 5)
     assert total == 25
     assert result == 5
     assert outcome == "success"
@@ -26,7 +26,7 @@ def test_spont_exact_success():
 def test_spont_fail():
     """Test that a non-fatiguing spont can fail"""
     # Should get 30 / 5 < 10
-    roll, total, result, outcome = spont_roll(30, 10)
+    roll, total, result, outcome = spont_non_roll(30, 10)
     assert total == 30
     assert result == 6
     assert outcome == "failure"
@@ -38,7 +38,7 @@ def test_spont_neg_1_failure():
     # it's one of the few places rounding isn't specified. We
     # assume no rounding, so misses by -1 fail
     # Should get 24 / 5 < 5
-    roll, total, result, outcome = spont_roll(24, 5)
+    roll, total, result, outcome = spont_non_roll(24, 5)
     assert total == 24
     assert result == 4
     assert outcome == "failure"
