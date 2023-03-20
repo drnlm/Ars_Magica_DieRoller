@@ -12,7 +12,7 @@ from am5dieroller.ars_magica_rolls.stressed import stressed_roll
 from am5dieroller.ars_magica_rolls.formulaic import formulaic_roll
 from am5dieroller.ars_magica_rolls.spont_rolls import spont_non_roll, fatiguing_spont_roll
 from am5dieroller.ars_magica_rolls.simple import simple_roll
-#from am5dieroller.ars_magica_rolls.botch import botch_roll
+from am5dieroller.ars_magica_rolls.botch import botch_roll
 
 
 ABOUT = """A simple Ars Magica 5th Edition die roller
@@ -90,6 +90,19 @@ async def stressed(interaction: discord.Interaction, modifier: Optional[int] = 0
 async def simple(interaction: discord.Interaction, modifier: Optional[int] = 0):
     rolls, total, outcome = simple_roll(modifier)
     result = f'Roll: {rolls[0]}. Total (with modifier {modifier}: **{total}**'
+    await interaction.response.send_message(result)
+
+
+@client.tree.command()
+@app_commands.describe(
+    number="number of dice to roll (optional, defaults to 1)",
+)
+async def botch(interaction: discord.Interaction, number: Optional[int] = 1):
+    rolls, botches, outcome = botch_roll(number)
+    if number > 1:
+        result = f'Rolls: {rolls}. Botches **{botches}**  -- **{outcome}**'
+    else:
+        result = f'Roll: **{rolls[0]}** -- **{outcome}**'
     await interaction.response.send_message(result)
 
 
