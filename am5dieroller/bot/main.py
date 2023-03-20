@@ -75,9 +75,9 @@ client = DieRollerClient(guilds)
 async def stressed(interaction: discord.Interaction, modifier: Optional[int] = 0):
     rolls, total, outcome = stressed_roll(modifier)
     if len(rolls) > 1:
-        result = f'Rolls: {rolls}. Total (with modifier {modifier}: **{total}**'
+        result = f'Rolls: {rolls}. Total (with modifier {modifier}): **{total}**'
     else:
-        result = f'Roll: {rolls[0]}. Total (with modifier {modifier}: **{total}**'
+        result = f'Roll: {rolls[0]}. Total (with modifier {modifier}): **{total}**'
     if outcome:
         result += f'\n**{outcome}**\n'
     await interaction.response.send_message(result)
@@ -89,7 +89,7 @@ async def stressed(interaction: discord.Interaction, modifier: Optional[int] = 0
 )
 async def simple(interaction: discord.Interaction, modifier: Optional[int] = 0):
     rolls, total, outcome = simple_roll(modifier)
-    result = f'Roll: {rolls[0]}. Total (with modifier {modifier}: **{total}**'
+    result = f'Roll: {rolls[0]}. Total (with modifier {modifier}): **{total}**'
     await interaction.response.send_message(result)
 
 
@@ -114,9 +114,9 @@ async def botch(interaction: discord.Interaction, number: Optional[int] = 1):
 async def formulaic(interaction: discord.Interaction, casting_score: int, target: int):
     rolls, total, outcome = formulaic_roll(casting_score, target)
     if len(rolls) > 1:
-        result = f'Rolls: {rolls}. Total (with casting score {casting_score}: **{total}** (against {target})'
+        result = f'Rolls: {rolls}. Total (with casting score {casting_score}): **{total}** (against {target})'
     else:
-        result = f'Roll: {rolls[0]}. Total (with casting score {casting_score}: **{total}** (against {target})'
+        result = f'Roll: {rolls[0]}. Total (with casting score {casting_score}): **{total}** (against {target})'
     result += f'\n**{outcome}**\n'
     await interaction.response.send_message(result)
 
@@ -140,9 +140,9 @@ async def spontaneous(interaction: discord.Interaction, casting_score: int, targ
 async def fspont(interaction: discord.Interaction, casting_score: int, target: int):
     rolls, total, modified_total, outcome = fatiguing_spont_roll(casting_score, target)
     if len(rolls) > 1:
-        result = f'Rolls: {rolls}. Total (with casting score {casting_score}: {total}. Final total **{modified_total}** (against {target})'
+        result = f'Rolls: {rolls}. Total (with casting score {casting_score}): {total}. Final total **{modified_total}** (against {target})'
     else:
-        result = f'Roll: {rolls[0]}. Total (with casting score {casting_score}: {total}. Final total **{modified_total}** (against {target})'
+        result = f'Roll: {rolls[0]}. Total (with casting score {casting_score}): {total}. Final total **{modified_total}** (against {target})'
     result += f'\n**{outcome}**\n'
     await interaction.response.send_message(result)
 
