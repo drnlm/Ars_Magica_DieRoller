@@ -95,9 +95,9 @@ async def botch(interaction: discord.Interaction,
                 number: Optional[ app_commands.Range[int, 1, None] ] = 1):
     rolls, botches, outcome = botch_roll(number)
     if number > 1:
-        result = f'Rolls: {rolls}. Botches **{botches}**  -- **{outcome}**'
+        result = f'Rolls: {rolls}. Botches: **{botches}**  --  **{outcome}**'
     else:
-        result = f'Roll: **{rolls[0]}** -- **{outcome}**'
+        result = f'Roll: **{rolls[0]}**  --  **{outcome}**'
     await interaction.response.send_message(result)
 
 
@@ -126,7 +126,7 @@ async def spontaneous(interaction: discord.Interaction,
                       casting_score: app_commands.Range[int, 0, None],
                       target: app_commands.Range[int, 0, None]):
     _, total, modified_total, outcome = spont_non_roll(casting_score, target)
-    result = f'Total: {total}. Final total **{modified_total}** (against {target})'
+    result = f'Total: {total}. Final total: **{modified_total}** (against {target})'
     result += f'\n**{outcome}**\n'
     await interaction.response.send_message(result)
 
@@ -141,9 +141,9 @@ async def fspont(interaction: discord.Interaction,
                  target: app_commands.Range[int, 0, None]):
     rolls, total, modified_total, outcome = fatiguing_spont_roll(casting_score, target)
     if len(rolls) > 1:
-        result = f'Rolls: {rolls}. Total (with casting score {casting_score}): {total}. Final total **{modified_total}** (against {target})'
+        result = f'Rolls: {rolls}. Total (with casting score {casting_score}): {total}. Final total: **{modified_total}** (against {target})'
     else:
-        result = f'Roll: {rolls[0]}. Total (with casting score {casting_score}): {total}. Final total **{modified_total}** (against {target})'
+        result = f'Roll: {rolls[0]}. Total (with casting score {casting_score}): {total}. Final total: **{modified_total}** (against {target})'
     result += f'\n**{outcome}**\n'
     await interaction.response.send_message(result)
 
