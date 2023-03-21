@@ -6,40 +6,41 @@ GPL-3 licensed - see the license file
 Commands
 ---------
 
-/simple [+modifier]
-/i [+modifier]
+Supported commands
 
-A simple die roll, with optional modifier which is added to the result
-
-
-/stressed [+modifier]
-/ess [+modifier]
+/stressed [modifier]
 
 A stressed die roll with an optional modifier
 Rolls of zero will display 'possible botch' in addition to the total if the roll does not
 botch
 
-/botch [number]
-/b [number]
+/simple [modifier]
+
+   A simple die roll, with optional modifier which is added to the result
+
+/formulaic <casting_score> <target>
+
+Roll a formulaic spell using a stress die.
+casting_score and target are required.
+Returns the success levels (succcess, success with fatigue, failure) in addition to the total
+Rolls of zero will display 'possible botch' in addition to the total if the roll does not
+botch
+
+/spontaneous <casting_score> <target>
+
+A non-fatiguing spontaneous spell - no roll, but does the appropriate calculation.
+
+/fspont <casting_score> <target>
+
+A fatiguing spontaneous spell.
+
+Works the same as /formulaic, but with the fatiguing spontaneous spell calculation of the total score.
+
+/botch <number> - Roll the given number of botch dice
 
 Roll *number* botch die (defaulting to 1 if no value given) and report the number of botches
 
-/formulaic [+casting score] [target]
-/form [+casting score] [target]
-
-Roll a formulaic spell using a stress die, given the success levels if given
-the casting score and target number If just given the casting score, works the
-same as a stressed die
-
-/spont [+casting score] [target]
-/sp [+casting score] [target]
-
-Roll a non-fatiguing spontaneous spell.
-
-/fspont [+casting scroe] [target]
-/fsp [+casting score] [target]
-
-Roll a fatiguing spontaenous spell
+/about - list the commands and the github url
 
 Requirements
 ============
