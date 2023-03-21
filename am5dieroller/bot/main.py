@@ -22,7 +22,7 @@ Supported commands
 /stressed [modifier] - A stressed die (with optional modifier)
 /simple [modifier] - A simple die (with optional modifier)
 /formulaic <casting_score> <target> - A formulaic spell
-/spont <casting_score> <target> - A non-fatiguing spont (no roll, but does the appropriate calculation)
+/spontaneous <casting_score> <target> - A non-fatiguing spont (no roll, but does the appropriate calculation)
 /fspont <casting_score> <target> - A fatiguing spont
 /botch <number> - Roll the given number of botch dice
 
