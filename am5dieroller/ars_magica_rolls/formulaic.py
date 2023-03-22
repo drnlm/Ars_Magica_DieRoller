@@ -1,8 +1,14 @@
+"""Handle formulaic spell rolls"""
+
 from .stressed import stressed_die
 from .utils import die_roller
 
 
 def formulaic_roll(modifier, target):
+    """Cast a formulaic spell using a stressed die.
+
+       Return the result (success, success with fatigure, failure)
+       and possible botches"""
     rolls, total = stressed_die()
     result = total + modifier
     if result >= target:
@@ -24,6 +30,9 @@ def formulaic_roll(modifier, target):
 
 
 def formulaic_simple_roll(modifier, target):
+    """Cast a formulaic spell using a simple die.
+
+       Return the result (success, success with fatigure, failure)"""
     roll = die_roller()
     result = roll + modifier
     if result >= target:

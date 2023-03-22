@@ -1,3 +1,6 @@
+"""Test the die_roller function"""
+
+
 from ..utils import die_roller
 
 
@@ -9,7 +12,7 @@ def test_die_roller():
     # 1000 trails is comlete overkill here, but is
     # a number I like
     results = set()
-    for trial in range(1000):
+    for _trial in range(1000):
         results.add(die_roller())
 
     assert len(results) == 10

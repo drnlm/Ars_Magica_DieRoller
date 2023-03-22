@@ -1,5 +1,4 @@
-# Tests for simple die rolls
-
+"""Tests for simple die rolls"""
 
 from unittest.mock import Mock, patch
 
@@ -31,4 +30,3 @@ def test_simple_roll_zero():
         assert len(rolls) == 1
         assert total == 10
         assert outcome == ''
-

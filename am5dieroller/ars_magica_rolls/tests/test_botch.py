@@ -1,4 +1,4 @@
-# Test for botch rolls
+"""Test for botch rolls"""
 
 from unittest.mock import Mock, patch
 
@@ -62,7 +62,8 @@ def test_three_botch_three():
 
 def test_three_botch_ten():
     """Test that we can see three botches on ten die"""
-    with patch('random.randint', new_callable=Mock, side_effect=[7, 3, 0, 5, 7, 1, 0, 0, 4, 9, 1, 1, 3]):
+    with patch('random.randint', new_callable=Mock,
+               side_effect=[7, 3, 0, 5, 7, 1, 0, 0, 4, 9, 1, 1, 3]):
         rolls, botches, outcome = botch_roll(10)
         assert len(rolls) == 10
         assert botches == 3
