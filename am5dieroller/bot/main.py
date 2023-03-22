@@ -67,6 +67,7 @@ client = DieRollerClient()
     modifier="modifier to add to the roll (optional)",
 )
 async def stressed(interaction: discord.Interaction, modifier: Optional[int] = 0):
+    """A stressed die roll"""
     rolls, total, outcome = stressed_roll(modifier)
     if len(rolls) > 1:
         result = f'Rolls: {rolls}. Total (with modifier {modifier}): **{total}**'
@@ -83,6 +84,7 @@ async def stressed(interaction: discord.Interaction, modifier: Optional[int] = 0
 )
 async def simple(interaction: discord.Interaction,
                  modifier: Optional[ app_commands.Range[int, 0, None] ] = 0):
+    """A simple die roll - no botch, no open end"""
     rolls, total, outcome = simple_roll(modifier)
     result = f'Roll: {rolls[0]}. Total (with modifier {modifier}): **{total}**'
     await interaction.response.send_message(result)
@@ -94,6 +96,7 @@ async def simple(interaction: discord.Interaction,
 )
 async def botch(interaction: discord.Interaction,
                 number: Optional[ app_commands.Range[int, 1, None] ] = 1):
+    """Roll for a possible botch"""
     rolls, botches, outcome = botch_roll(number)
     if number > 1:
         result = f'Rolls: {rolls}. Botches: **{botches}**  --  **{outcome}**'
@@ -110,6 +113,7 @@ async def botch(interaction: discord.Interaction,
 async def formulaic(interaction: discord.Interaction,
                     casting_score: app_commands.Range[int, 0, None],
                     target: app_commands.Range[int, 0, None]):
+    """A formulaic spell using a stressed die"""
     rolls, total, outcome = formulaic_roll(casting_score, target)
     if len(rolls) > 1:
         result = f'Rolls: {rolls}. Total (with casting score {casting_score}): **{total}** (against {target})'
@@ -127,6 +131,7 @@ async def formulaic(interaction: discord.Interaction,
 async def formulaic_simple(interaction: discord.Interaction,
                            casting_score: app_commands.Range[int, 0, None],
                            target: app_commands.Range[int, 0, None]):
+    """A formulaic spell using a simple die"""
     rolls, total, outcome = formulaic_simple_roll(casting_score, target)
     result = f'Roll: {rolls[0]}. Total (with casting score {casting_score}): **{total}** (against {target})'
     result += f'\n**{outcome}**\n'
@@ -141,6 +146,7 @@ async def formulaic_simple(interaction: discord.Interaction,
 async def spontaneous(interaction: discord.Interaction,
                       casting_score: app_commands.Range[int, 0, None],
                       target: app_commands.Range[int, 0, None]):
+    """A non-fatiguing spontaneous spell (no die roll, divide total by 5)"""
     _, total, modified_total, outcome = spont_non_roll(casting_score, target)
     result = f'Total: {total}. Final total: **{modified_total}** (against {target})'
     result += f'\n**{outcome}**\n'
@@ -155,6 +161,7 @@ async def spontaneous(interaction: discord.Interaction,
 async def fspont(interaction: discord.Interaction,
                  casting_score: app_commands.Range[int, 0, None],
                  target: app_commands.Range[int, 0, None]):
+    """A fatiguing spontaneous spell (stressed die roll, divide total by 2)"""
     rolls, total, modified_total, outcome = fatiguing_spont_roll(casting_score, target)
     if len(rolls) > 1:
         result = f'Rolls: {rolls}. Total (with casting score {casting_score}): {total}. Final total: **{modified_total}** (against {target})'
