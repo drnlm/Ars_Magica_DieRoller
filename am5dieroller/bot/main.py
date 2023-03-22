@@ -2,6 +2,8 @@
 #
 # Main file for the die roller bot
 
+"""Implementation of the actual bot"""
+
 import os
 from typing import Optional
 
@@ -40,6 +42,7 @@ if not token:
 
 
 class DieRollerClient(discord.Client):
+    """The client used by bot"""
 
     def __init__(self):
         """Create the client and add hooks to sync slash commands"""
@@ -62,12 +65,13 @@ client = DieRollerClient()
 # I don't like this idiom for adding commands, but adding commands
 # without using the decorator is annoyingly messy
 
-@client.tree.command()
-@app_commands.describe(
-    modifier="modifier to add to the roll (optional)",
-)
-async def stressed(interaction: discord.Interaction, modifier: Optional[int] = 0):
-    """A stressed die roll"""
+# Internal formating helpers, to make aliases easier
+# It's non-trivial to create aliases without repeating boilerplate,
+# so this separation minimises the repeated code
+
+
+def stressed_internal(modifier):
+    """Format a stressed die result"""
     rolls, total, outcome = stressed_roll(modifier)
     if len(rolls) > 1:
         result = f'Rolls: {rolls}. Total (with modifier {modifier}): **{total}**'
@@ -75,6 +79,74 @@ async def stressed(interaction: discord.Interaction, modifier: Optional[int] = 0
         result = f'Roll: {rolls[0]}. Total (with modifier {modifier}): **{total}**'
     if outcome:
         result += f'\n**{outcome}**\n'
+    return result
+
+
+def simple_internal(modifier):
+    """Format a simple die result"""
+    rolls, total, _ = simple_roll(modifier)
+    result = f'Roll: {rolls[0]}. Total (with modifier {modifier}): **{total}**'
+    return result
+
+
+def botch_internal(number):
+    """Format a botch roll result"""
+    rolls, botches, outcome = botch_roll(number)
+    if number > 1:
+        result = f'Rolls: {rolls}. Botches: **{botches}**  --  **{outcome}**'
+    else:
+        result = f'Roll: **{rolls[0]}**  --  **{outcome}**'
+    return result
+
+
+def formulaic_internal(casting_score, target):
+    """Format a stressed formulaic spell roll result"""
+    rolls, total, outcome = formulaic_roll(casting_score, target)
+    if len(rolls) > 1:
+        result = f'Rolls: {rolls}. Total (with casting score {casting_score}): **{total}** (against {target})'
+    else:
+        result = f'Roll: {rolls[0]}. Total (with casting score {casting_score}): **{total}** (against {target})'
+    result += f'\n**{outcome}**\n'
+    return result
+
+
+def formulaic_simple_internal(casting_score, target):
+    """Format a simple formulaic spell roll result"""
+    rolls, total, outcome = formulaic_simple_roll(casting_score, target)
+    result = f'Roll: {rolls[0]}. Total (with casting score {casting_score}): **{total}** (against {target})'
+    result += f'\n**{outcome}**\n'
+    return result
+
+
+def spontaneous_internal(casting_score, target):
+    """Format a spontaneous spell result"""
+    _, total, modified_total, outcome = spont_non_roll(casting_score, target)
+    result = f'Total: {total}. Final total: **{modified_total}** (against {target})'
+    result += f'\n**{outcome}**\n'
+    return result
+
+
+def fspont_internal(casting_score, target):
+    """Format a fatiguing spontaneous spell roll result"""
+    rolls, total, modified_total, outcome = fatiguing_spont_roll(casting_score, target)
+    if len(rolls) > 1:
+        result = f'Rolls: {rolls}. Total (with casting score {casting_score}): {total}. Final total: **{modified_total}** (against {target})'
+    else:
+        result = f'Roll: {rolls[0]}. Total (with casting score {casting_score}): {total}. Final total: **{modified_total}** (against {target})'
+    result += f'\n**{outcome}**\n'
+    return result
+
+
+
+# The actual tree commands
+
+@client.tree.command()
+@app_commands.describe(
+    modifier="modifier to add to the roll (optional)",
+)
+async def stressed(interaction: discord.Interaction, modifier: Optional[int] = 0):
+    """A stressed die roll"""
+    result = stressed_internal(modifier)
     await interaction.response.send_message(result)
 
 
@@ -85,8 +157,7 @@ async def stressed(interaction: discord.Interaction, modifier: Optional[int] = 0
 async def simple(interaction: discord.Interaction,
                  modifier: Optional[ app_commands.Range[int, 0, None] ] = 0):
     """A simple die roll - no botch, no open end"""
-    rolls, total, outcome = simple_roll(modifier)
-    result = f'Roll: {rolls[0]}. Total (with modifier {modifier}): **{total}**'
+    result = simple_internal(modifier)
     await interaction.response.send_message(result)
 
 
@@ -97,11 +168,7 @@ async def simple(interaction: discord.Interaction,
 async def botch(interaction: discord.Interaction,
                 number: Optional[ app_commands.Range[int, 1, None] ] = 1):
     """Roll for a possible botch"""
-    rolls, botches, outcome = botch_roll(number)
-    if number > 1:
-        result = f'Rolls: {rolls}. Botches: **{botches}**  --  **{outcome}**'
-    else:
-        result = f'Roll: **{rolls[0]}**  --  **{outcome}**'
+    result = botch_internal(number)
     await interaction.response.send_message(result)
 
 
@@ -114,12 +181,7 @@ async def formulaic(interaction: discord.Interaction,
                     casting_score: app_commands.Range[int, 0, None],
                     target: app_commands.Range[int, 0, None]):
     """A formulaic spell using a stressed die"""
-    rolls, total, outcome = formulaic_roll(casting_score, target)
-    if len(rolls) > 1:
-        result = f'Rolls: {rolls}. Total (with casting score {casting_score}): **{total}** (against {target})'
-    else:
-        result = f'Roll: {rolls[0]}. Total (with casting score {casting_score}): **{total}** (against {target})'
-    result += f'\n**{outcome}**\n'
+    result = formulaic_internal(casting_score, target)
     await interaction.response.send_message(result)
 
 
@@ -132,9 +194,7 @@ async def formulaic_simple(interaction: discord.Interaction,
                            casting_score: app_commands.Range[int, 0, None],
                            target: app_commands.Range[int, 0, None]):
     """A formulaic spell using a simple die"""
-    rolls, total, outcome = formulaic_simple_roll(casting_score, target)
-    result = f'Roll: {rolls[0]}. Total (with casting score {casting_score}): **{total}** (against {target})'
-    result += f'\n**{outcome}**\n'
+    result = formulaic_simple_internal(casting_score, target)
     await interaction.response.send_message(result)
 
 
@@ -147,9 +207,7 @@ async def spontaneous(interaction: discord.Interaction,
                       casting_score: app_commands.Range[int, 0, None],
                       target: app_commands.Range[int, 0, None]):
     """A non-fatiguing spontaneous spell (no die roll, divide total by 5)"""
-    _, total, modified_total, outcome = spont_non_roll(casting_score, target)
-    result = f'Total: {total}. Final total: **{modified_total}** (against {target})'
-    result += f'\n**{outcome}**\n'
+    result = spontaneous_internal(casting_score, target)
     await interaction.response.send_message(result)
 
 
@@ -162,17 +220,13 @@ async def fspont(interaction: discord.Interaction,
                  casting_score: app_commands.Range[int, 0, None],
                  target: app_commands.Range[int, 0, None]):
     """A fatiguing spontaneous spell (stressed die roll, divide total by 2)"""
-    rolls, total, modified_total, outcome = fatiguing_spont_roll(casting_score, target)
-    if len(rolls) > 1:
-        result = f'Rolls: {rolls}. Total (with casting score {casting_score}): {total}. Final total: **{modified_total}** (against {target})'
-    else:
-        result = f'Roll: {rolls[0]}. Total (with casting score {casting_score}): {total}. Final total: **{modified_total}** (against {target})'
-    result += f'\n**{outcome}**\n'
+    result = fspont_internal(casting_score, target)
     await interaction.response.send_message(result)
 
 
 @client.tree.command()
 async def about(interaction: discord.Interaction):
+    """Help about the Ars Magica die roller"""
     await interaction.response.send_message(ABOUT)
 
 
