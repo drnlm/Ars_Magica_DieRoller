@@ -9,7 +9,7 @@ import discord
 from discord import app_commands
 
 from am5dieroller.ars_magica_rolls.stressed import stressed_roll
-from am5dieroller.ars_magica_rolls.formulaic import formulaic_roll
+from am5dieroller.ars_magica_rolls.formulaic import formulaic_roll, formulaic_simple_roll
 from am5dieroller.ars_magica_rolls.spont_rolls import spont_non_roll, fatiguing_spont_roll
 from am5dieroller.ars_magica_rolls.simple import simple_roll
 from am5dieroller.ars_magica_rolls.botch import botch_roll
@@ -21,7 +21,8 @@ Supported commands
 
 /stressed [modifier] - A stressed die (with optional modifier)
 /simple [modifier] - A simple die (with optional modifier)
-/formulaic <casting_score> <target> - A formulaic spell
+/formulaic <casting_score> <target> - A formulaic spell using a stressed die
+/formulaic_simple <casting_score> <target> - A formulaic spell using a simple die
 /spontaneous <casting_score> <target> - A non-fatiguing spont (no roll, but does the appropriate calculation)
 /fspont <casting_score> <target> - A fatiguing spont
 /botch <number> - Roll the given number of botch dice
@@ -116,6 +117,21 @@ async def formulaic(interaction: discord.Interaction,
         result = f'Roll: {rolls[0]}. Total (with casting score {casting_score}): **{total}** (against {target})'
     result += f'\n**{outcome}**\n'
     await interaction.response.send_message(result)
+
+
+@client.tree.command()
+@app_commands.describe(
+    casting_score="The casting score (Stamina + Art + Form + Aura) to add to the roll",
+    target="The target level of the spell",
+)
+async def formulaic_simple(interaction: discord.Interaction,
+                           casting_score: app_commands.Range[int, 0, None],
+                           target: app_commands.Range[int, 0, None]):
+    rolls, total, outcome = formulaic_simple_roll(casting_score, target)
+    result = f'Roll: {rolls[0]}. Total (with casting score {casting_score}): **{total}** (against {target})'
+    result += f'\n**{outcome}**\n'
+    await interaction.response.send_message(result)
+
 
 @client.tree.command()
 @app_commands.describe(
