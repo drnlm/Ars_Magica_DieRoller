@@ -44,7 +44,7 @@ def formulaic_simple_roll(modifier, target):
     return [roll], result, outcome
 
 
-def ritual(modifier, target):
+def ritual_roll(modifier, target):
     """Cast a ritual spell using a stressed die.
 
        Return the result (success with fatigue (varying levels), failure)
