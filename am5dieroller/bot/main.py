@@ -11,7 +11,7 @@ import discord
 from discord import app_commands
 
 from am5dieroller.ars_magica_rolls.stressed import stressed_roll
-from am5dieroller.ars_magica_rolls.formulaic import formulaic_roll, formulaic_simple_roll
+from am5dieroller.ars_magica_rolls.formulaic import formulaic_roll, formulaic_simple_roll, ritual_roll
 from am5dieroller.ars_magica_rolls.spont_rolls import spont_non_roll, fatiguing_spont_roll
 from am5dieroller.ars_magica_rolls.simple import simple_roll
 from am5dieroller.ars_magica_rolls.botch import botch_roll
@@ -25,6 +25,7 @@ Supported commands
 /simple [modifier] - A simple die (with optional modifier)
 /formulaic <casting_score> <target> - A formulaic spell using a stressed die
 /formulaic_simple <casting_score> <target> - A formulaic spell using a simple die
+/ritual <casting_score> <target> - A ritual spell using a stressed die
 /spontaneous <casting_score> <target> - A non-fatiguing spont (no roll, but does the appropriate calculation)
 /fspont <casting_score> <target> - A fatiguing spont
 /botch <number> - Roll the given number of botch dice
@@ -99,9 +100,9 @@ def botch_internal(number):
     return result
 
 
-def formulaic_internal(casting_score, target):
+def formulaic_ritual_internal(casting_score, target, roll_function):
     """Format a stressed formulaic spell roll result"""
-    rolls, total, outcome = formulaic_roll(casting_score, target)
+    rolls, total, outcome = roll_function(casting_score, target)
     if len(rolls) > 1:
         result = f'Rolls: {rolls}. Total (with casting score {casting_score}): **{total}** (against {target})'
     else:
@@ -181,7 +182,7 @@ async def formulaic(interaction: discord.Interaction,
                     casting_score: app_commands.Range[int, 0, None],
                     target: app_commands.Range[int, 0, None]):
     """A formulaic spell using a stressed die"""
-    result = formulaic_internal(casting_score, target)
+    result = formulaic_ritual_internal(casting_score, target, formulaic_roll)
     await interaction.response.send_message(result)
 
 
@@ -196,6 +197,20 @@ async def formulaic_simple(interaction: discord.Interaction,
     """A formulaic spell using a simple die"""
     result = formulaic_simple_internal(casting_score, target)
     await interaction.response.send_message(result)
+
+
+@client.tree.command()
+@app_commands.describe(
+    casting_score="The casting score (Stamina + Art + Form + Aura + Artes Liberales + Philosophiae) to add to the roll",
+    target="The target level of the spell",
+)
+async def ritual(interaction: discord.Interaction,
+                 casting_score: app_commands.Range[int, 0, None],
+                 target: app_commands.Range[int, 0, None]):
+    """A ritual spell using a stressed die"""
+    result = formulaic_ritual_internal(casting_score, target, ritual_roll)
+    await interaction.response.send_message(result)
+
 
 
 @client.tree.command()
