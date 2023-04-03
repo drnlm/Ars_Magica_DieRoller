@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-#
 # Main file for the die roller bot
 
 """Implementation of the actual bot"""
@@ -10,9 +8,11 @@ from typing import Optional
 import discord
 from discord import app_commands
 
-from .internal import (stressed_internal, simple_internal, botch_internal,
-                       formulaic_internal, formulaic_simple_internal,
-                       ritual_internal, spontaneous_internal, fspont_internal)
+from am5dieroller.bot.internal import (stressed_internal, simple_internal,
+                                       botch_internal, formulaic_internal,
+                                       formulaic_simple_internal,
+                                       ritual_internal, spontaneous_internal,
+                                       fspont_internal)
 
 
 ABOUT = """A simple Ars Magica 5th Edition die roller
