@@ -1,12 +1,14 @@
-# This tests the internal functions to make sure we're basically calling the right thing
-# We don't try to mock out the actual discord API, relying on the discord.py people
-# to handle that testing
+"""This tests the internal functions to make sure we're basically calling the right thing
+and formatting the results correctly
+
+We don't try to mock out the actual discord API, relying on the discord.py people
+to handle that testing"""
 
 from unittest.mock import Mock, patch
 
 from ..internal import (stressed_internal, simple_internal, botch_internal,
                         formulaic_internal, formulaic_simple_internal,
-                        spontaneous_internal, fspont_internal, formulaic_internal,
+                        spontaneous_internal, fspont_internal,
                         ritual_internal)
 
 

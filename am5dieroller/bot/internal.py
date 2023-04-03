@@ -1,4 +1,4 @@
-# Internal helpers from 
+"""Internal formating helpers, to make aliases and testing easier"""
 
 from am5dieroller.ars_magica_rolls.stressed import stressed_roll
 from am5dieroller.ars_magica_rolls.formulaic import formulaic_roll, formulaic_simple_roll, ritual_roll
@@ -7,7 +7,6 @@ from am5dieroller.ars_magica_rolls.simple import simple_roll
 from am5dieroller.ars_magica_rolls.botch import botch_roll
 
 
-# Internal formating helpers, to make aliases and testing easier
 
 # It's non-trivial to create aliases without repeating boilerplate,
 # so this separation minimises the repeated code and similifies

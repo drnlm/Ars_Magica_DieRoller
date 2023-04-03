@@ -192,6 +192,7 @@ def test_formulaic_simple_no_botch():
 
 
 def test_ritual_success():
+    """Test that a ritual roll can succeed"""
     with patch('random.randint', new_callable=Mock, side_effect=[5]):
         rolls, total, outcome = ritual_roll(25, 5)
         assert len(rolls) == 1
@@ -199,7 +200,8 @@ def test_ritual_success():
         assert outcome == 'success (1 fatigue level)'
 
 
-def test_ritual_success_onpen_end():
+def test_ritual_success_open_end():
+    """Test that a ritual roll can open-end"""
     with patch('random.randint', new_callable=Mock, side_effect=[1, 5]):
         rolls, total, outcome = ritual_roll(25, 5)
         assert len(rolls) == 2
@@ -208,6 +210,7 @@ def test_ritual_success_onpen_end():
 
 
 def test_ritual_success_botch():
+    """Test that a ritual roll can succeed and report a possible botch"""
     with patch('random.randint', new_callable=Mock, side_effect=[0]):
         _rolls, total, outcome = ritual_roll(20, 5)
         assert total == 20
@@ -215,6 +218,7 @@ def test_ritual_success_botch():
 
 
 def test_ritual_success_two_level():
+    """Test that a ritual roll can succeed with 2 fatigue levels"""
     with patch('random.randint', new_callable=Mock, side_effect=[5]):
         _rolls, total, outcome = ritual_roll(4, 10)
         assert total == 9
@@ -222,6 +226,7 @@ def test_ritual_success_two_level():
 
 
 def test_ritual_success_three_level():
+    """Test that a ritual roll can succeed with 3 fatigue levels"""
     with patch('random.randint', new_callable=Mock, side_effect=[5]):
         _rolls, total, outcome = ritual_roll(10, 25)
         assert total == 15
@@ -229,6 +234,7 @@ def test_ritual_success_three_level():
 
 
 def test_ritual_failure_four_level():
+    """Test that a ritual roll can fail with 4 fatigue levels"""
     with patch('random.randint', new_callable=Mock, side_effect=[5]):
         _rolls, total, outcome = ritual_roll(6, 25)
         assert total == 11
@@ -236,6 +242,7 @@ def test_ritual_failure_four_level():
 
 
 def test_ritual_failure_five_level():
+    """Test that a ritual roll can fail with 5 fatigue levels"""
     with patch('random.randint', new_callable=Mock, side_effect=[2]):
         _rolls, total, outcome = ritual_roll(5, 35)
         assert total == 7
@@ -243,6 +250,7 @@ def test_ritual_failure_five_level():
 
 
 def test_ritual_failure_botch():
+    """Test that a ritual roll can fail and report a possible botch"""
     with patch('random.randint', new_callable=Mock, side_effect=[0]):
         _rolls, total, outcome = ritual_roll(5, 25)
         assert total == 5
