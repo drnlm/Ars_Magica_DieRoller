@@ -5,8 +5,7 @@ description = "A discord bot managing die rolls for Ars Magica 5th Edition"
 readme = "README"
 license = {file = "LICENSE"}
 authors = [
-  {email = "drnlmuller@gmail.com"},
-  {name = "Neil Muller"}
+  {email = "drnlmuller@gmail.com", name = "Neil Muller"}
 ]
 classifiers = [
   "Development Status :: 3 - Alpha",
