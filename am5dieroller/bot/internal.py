@@ -28,7 +28,12 @@ def stressed_internal(modifier):
 def simple_internal(modifier):
     """Format a simple die result"""
     rolls, total, _ = simple_roll(modifier)
-    result = f'Roll: {rolls[0]}. Total (with modifier {modifier}): **{total}**'
+    if rolls[0] == 0:
+        details = ' (0 on d10)'
+        rolls[0] += 10
+    else:
+        details = ''
+    result = f'Roll: {rolls[0]}{details}. Total (with modifier {modifier}): **{total}**'
     return result
 
 
@@ -56,7 +61,12 @@ def formulaic_ritual_internal(casting_score, target, roll_function):
 def formulaic_simple_internal(casting_score, target):
     """Format a simple formulaic spell roll result"""
     rolls, total, outcome = formulaic_simple_roll(casting_score, target)
-    result = f'Roll: {rolls[0]}. Total (with casting score {casting_score}): **{total}** (against {target})'
+    if rolls[0] == 0:
+        details = ' (0 on d10)'
+        rolls[0] += 10
+    else:
+        details = ''
+    result = f'Roll: {rolls[0]}{details}. Total (with casting score {casting_score}): **{total}** (against {target})'
     result += f'\n**{outcome}**\n'
     return result
 

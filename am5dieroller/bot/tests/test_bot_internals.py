@@ -40,9 +40,9 @@ def test_simple_zero():
     """Check simple die with 0 roll"""
     with patch('random.randint', new_callable=Mock, side_effect=[0]):
         result = simple_internal(5)
-        assert '**5**' in result
+        assert '**15**' in result
         assert 'botch' not in result
-        assert 'Roll: 0.' in result
+        assert 'Roll: 10 (0 on d10).' in result
 
 
 def test_stressed_non_zero():
@@ -196,9 +196,9 @@ def test_formulaic_simple_non_zero_success_no_fatigue():
 def test_formulaic_simple_zero():
     """Test a formulaic simple casting roll with a zero roll"""
     with patch('random.randint', new_callable=Mock, side_effect=[0]):
-        result = formulaic_simple_internal(5, 10)
-        assert 'Roll: 0' in result
-        assert '**5**' in result
+        result = formulaic_simple_internal(5, 20)
+        assert 'Roll: 10 (0 on d10).' in result
+        assert '**15**' in result
         assert '**success (with fatigue)**' in result
         assert '**possible botch**' not in result
 
