@@ -187,7 +187,7 @@ def test_formulaic_simple_no_botch():
     """Test that a formulaic spell with a simple roll doesn't botch on 0"""
     with patch('random.randint', new_callable=Mock, side_effect=[0]):
         _rolls, total, outcome = formulaic_simple_roll(25, 5)
-        assert total == 25
+        assert total == 35
         assert outcome == 'success'
 
 

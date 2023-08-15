@@ -6,4 +6,8 @@ from .utils import die_roller
 def simple_roll(modifier):
     """Roll a simple die"""
     roll = die_roller()
-    return [roll], roll + modifier, ''
+    if roll == 0:
+        result = 10
+    else:
+        result = roll
+    return [roll], result + modifier, ''

@@ -24,9 +24,9 @@ def test_simple_roll_one():
 
 
 def test_simple_roll_zero():
-    """Test that 0's are treated as just zero"""
+    """Test that 0's are treated as ten"""
     with patch('random.randint', new_callable=Mock, side_effect=[0]):
         rolls, total, outcome = simple_roll(10)
         assert len(rolls) == 1
-        assert total == 10
+        assert total == 20
         assert outcome == ''

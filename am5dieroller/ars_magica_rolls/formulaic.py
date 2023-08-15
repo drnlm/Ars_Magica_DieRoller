@@ -35,6 +35,8 @@ def formulaic_simple_roll(modifier, target):
        Return the result (success, success with fatigue, failure)"""
     roll = die_roller()
     result = roll + modifier
+    if roll == 0:
+        result += 10
     if result >= target:
         outcome = "success"
     elif target - result <= 10:
